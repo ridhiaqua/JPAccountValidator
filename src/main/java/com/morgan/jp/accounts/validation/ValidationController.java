@@ -1,23 +1,29 @@
 package com.morgan.jp.accounts.validation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.morgan.jp.accounts.models.AccountValidationRequestDto;
-import com.morgan.jp.accounts.providers.DataProviders;
+import com.morgan.jp.accounts.models.AccountValidationResponseDto;
+import com.morgan.jp.accounts.validation.service.IValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
 public class ValidationController {
 
-    private final DataProviders dataProviders;
+    IValidationService validationService;
+
+    @Autowired
+    public ValidationController(IValidationService validationService) {
+        this.validationService = validationService;
+    }
 
     @PostMapping("/validate")
-    public String validate(@RequestBody AccountValidationRequestDto accountValidationRequestDto) throws Exception {
-        ObjectMapper om = new ObjectMapper();
-        this.dataProviders.getProviders().forEach(x -> System.out.println(x.name));
-        return om.writeValueAsString(accountValidationRequestDto);
+    public AccountValidationResponseDto validate(@Valid @RequestBody AccountValidationRequestDto accountValidationRequestDto) throws Exception {
+        return validationService.requestDtoProvidersValidator(accountValidationRequestDto);
     }
 }
