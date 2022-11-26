@@ -1,0 +1,12 @@
+#spring:
+#  profiles:
+#    active: prod
+
+data:
+  providers:
+    provider1:
+      name: provider1
+      url: https://provider1.com/v1/api/account/validate
+    provider2:
+      name: provider2
+      url: https://provider2.com/v2/api/account/validate

@@ -23,7 +23,7 @@ public class ValidationController {
     }
 
     @PostMapping("/validate")
-    public AccountValidationResponseDto validate(@Valid @RequestBody AccountValidationRequestDto accountValidationRequestDto) throws Exception {
-        return validationService.requestDtoProvidersValidator(accountValidationRequestDto);
+    public AccountValidationResponseDto validate(@Valid @RequestBody AccountValidationRequestDto accountValidationRequestDto) {
+        return validationService.validateRequest(accountValidationRequestDto);
     }
 }

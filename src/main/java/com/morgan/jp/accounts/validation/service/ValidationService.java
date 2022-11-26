@@ -1,31 +1,32 @@
 package com.morgan.jp.accounts.validation.service;
 
+import com.morgan.jp.accounts.models.AccountValidationProvidersResult;
 import com.morgan.jp.accounts.models.AccountValidationRequestDto;
 import com.morgan.jp.accounts.models.AccountValidationResponseDto;
-import com.morgan.jp.accounts.providers.DataProviders;
 import com.morgan.jp.accounts.providers.IDataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ValidationService implements IValidationService {
 
-    private final DataProviders dataProviders;
-    IDataProviderService dataProviderService;
+    private final IDataProviderService dataProviderService;
 
     @Autowired
-    public ValidationService(DataProviders dataProviders, IDataProviderService dataProviderService) {
+    public ValidationService(IDataProviderService dataProviderService) {
         this.dataProviderService = dataProviderService;
-        this.dataProviders = dataProviders;
     }
 
     @Override
-    public AccountValidationResponseDto requestDtoProvidersValidator(AccountValidationRequestDto accountValidationRequestDto) {
-
-        return new AccountValidationResponseDto(dataProviderService.validateAccount(
+    public AccountValidationResponseDto validateRequest(AccountValidationRequestDto accountValidationRequestDto) {
+        List<AccountValidationProvidersResult> result = dataProviderService.validateAccount(
                 accountValidationRequestDto.accountNumber,
-                accountValidationRequestDto.providers)
+                accountValidationRequestDto.providers
         );
+
+        return new AccountValidationResponseDto(result);
     }
 
 }

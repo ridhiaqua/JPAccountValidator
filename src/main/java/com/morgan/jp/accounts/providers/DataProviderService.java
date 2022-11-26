@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataProviderService implements IDataProviderService {
@@ -19,11 +20,11 @@ public class DataProviderService implements IDataProviderService {
     }
 
     @Override
-    public List<AccountValidationProvidersResult> validateAccount(String accountNumber, List<String> dataProvider) {
+    public List<AccountValidationProvidersResult> validateAccount(String accountNumber, List<String> dataProviders) {
         List<AccountValidationProvidersResult> resultList = new ArrayList<>();
 
-        if (CollectionUtils.isNotEmpty(dataProvider)) {
-            for (String provider : dataProvider) {
+        if (CollectionUtils.isNotEmpty(dataProviders)) {
+            for (String provider : dataProviders) {
                 resultList.add(getProviderResults(accountNumber, provider));
             }
             return resultList;
@@ -34,7 +35,8 @@ public class DataProviderService implements IDataProviderService {
 
     private List<AccountValidationProvidersResult> defaultProvidersResult(String accountNumber) {
         List<AccountValidationProvidersResult> resultList = new ArrayList<>();
-        for (String provider : this.dataProviders.getProviders().keySet()) {
+        Map<String, Provider> defaultProviderMap = this.dataProviders.getProviders();
+        for (String provider : defaultProviderMap.keySet()) {
             resultList.add(getProviderResults(accountNumber, provider));
         }
         return resultList;
@@ -43,12 +45,13 @@ public class DataProviderService implements IDataProviderService {
     private AccountValidationProvidersResult getProviderResults(String accountNumber, String provider) {
         AccountValidationProvidersResult result = new AccountValidationProvidersResult();
         result.setProvider(provider);
-        result.setValid(validateAccountAgainstProvider(accountNumber, provider));
+        result.setValid(validateAccountUsingProvider(accountNumber, provider));
         return result;
     }
 
-    private boolean validateAccountAgainstProvider(String accountNumber, String dataProvider) {
+    private boolean validateAccountUsingProvider(String accountNumber, String dataProvider) {
         // call the endpoint and checks isValid
+        // here we just compare if the provider in request is in our default providers list
         return this.dataProviders.getProviders().containsKey(dataProvider);
     }
 }

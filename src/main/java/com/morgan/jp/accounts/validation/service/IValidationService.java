@@ -5,5 +5,5 @@ import com.morgan.jp.accounts.models.AccountValidationResponseDto;
 
 public interface IValidationService {
 
-     AccountValidationResponseDto requestDtoProvidersValidator(AccountValidationRequestDto request);
+     AccountValidationResponseDto validateRequest(AccountValidationRequestDto request);
 }
