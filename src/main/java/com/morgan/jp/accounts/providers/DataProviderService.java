@@ -1,8 +1,9 @@
 package com.morgan.jp.accounts.providers;
 
 import com.morgan.jp.accounts.models.AccountValidationProvidersResult;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,14 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class DataProviderService implements IDataProviderService {
 
     private final DataProviders dataProviders;
-
-    @Autowired
-    public DataProviderService(DataProviders dataProviders) {
-        this.dataProviders = dataProviders;
-    }
 
     @Override
     public List<AccountValidationProvidersResult> validateAccount(String accountNumber, List<String> dataProviders) {
@@ -50,8 +48,9 @@ public class DataProviderService implements IDataProviderService {
     }
 
     private boolean validateAccountUsingProvider(String accountNumber, String dataProvider) {
-        // call the endpoint and checks isValid
+        log.info("Calling data provider " + dataProvider + " for account no: " + accountNumber);
         // here we just compare if the provider in request is in our default providers list
+        // otherwise this could be http call to the provider endpoint
         return this.dataProviders.getProviders().containsKey(dataProvider);
     }
 }

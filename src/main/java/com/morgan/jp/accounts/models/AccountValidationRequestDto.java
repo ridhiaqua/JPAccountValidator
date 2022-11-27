@@ -9,7 +9,6 @@ import java.util.List;
 public class AccountValidationRequestDto {
 
     @NotBlank
-    public String accountNumber;
-
-    public List<String> providers;
+    private String accountNumber;
+    private List<String> providers;
 }

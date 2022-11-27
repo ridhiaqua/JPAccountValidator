@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AccountValidationProvidersResult {
-    public String provider;
-    public boolean valid;
+
+    private String provider;
+    private boolean valid;
 }

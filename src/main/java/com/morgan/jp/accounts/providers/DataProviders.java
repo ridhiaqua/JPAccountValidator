@@ -12,5 +12,4 @@ import java.util.Map;
 public class DataProviders {
 
     public Map<String, Provider> providers;
-
 }

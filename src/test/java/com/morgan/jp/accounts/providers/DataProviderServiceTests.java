@@ -1,5 +1,6 @@
 package com.morgan.jp.accounts.providers;
 
+import com.google.common.collect.ImmutableMap;
 import com.morgan.jp.accounts.models.AccountValidationProvidersResult;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -8,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,10 +42,10 @@ public class DataProviderServiceTests {
 
     @Test
     public void validateAccount_emptyProviders_returnDefaultResponse() {
-        Map<String, Provider> defaultResponse = new HashMap<String, Provider>() {{
-            put("provider1", new Provider());
-            put("provider2", new Provider());
-        }};
+        Map<String, Provider> defaultResponse = ImmutableMap.of(
+                "provider1", new Provider(),
+                "provider2", new Provider()
+        );
 
         when(dataProviders.getProviders()).thenReturn(defaultResponse);
         List<AccountValidationProvidersResult> response = dataProviderService.validateAccount(
@@ -59,10 +59,10 @@ public class DataProviderServiceTests {
 
     @Test
     public void validateAccount_extraProviders_returnValidTrueIfExistInDefaultProviders() {
-        Map<String, Provider> defaultResponse = new HashMap<String, Provider>() {{
-            put("provider1", new Provider());
-            put("provider2", new Provider());
-        }};
+        Map<String, Provider> defaultResponse = ImmutableMap.of(
+                "provider1", new Provider(),
+                "provider2", new Provider()
+        );
 
         when(dataProviders.getProviders()).thenReturn(defaultResponse);
 

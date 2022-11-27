@@ -8,8 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 public class AccountsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AccountsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(AccountsApplication.class, args);
+    }
 }
